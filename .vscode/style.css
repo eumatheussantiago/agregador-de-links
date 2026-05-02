@@ -335,3 +335,62 @@ footer {
 #toast.show {
   bottom: 40px;
 }
+
+/* ==========================================
+   RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================== */
+
+/* Para celulares muito pequenos (telas menores que 380px) */
+@media (max-width: 380px) {
+  #container {
+    padding: 0 16px 40px;
+  }
+
+  .avatar-glass-ring {
+    width: 110px;
+    height: 110px;
+  }
+
+  ul li a {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .link-content strong {
+    font-size: 14px;
+  }
+
+  .link-content span {
+    font-size: 11px;
+  }
+
+  #social-links {
+    gap: 12px;
+  }
+
+  #social-links a {
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+  }
+}
+/* Para Tablets e Computadores (telas maiores que 768px) */
+@media (min-width: 768px) {
+  #container {
+    /* Empurra o cartão um pouco mais para o centro em telas grandes */
+    margin-top: 80px;
+    /* Aumenta levemente a largura máxima no desktop para respirar melhor */
+    max-width: 420px;
+  }
+
+  #share-btn {
+    /* Posiciona o botão de compartilhar de forma mais elegante fora do cartão */
+    right: -20px;
+    top: 20px;
+  }
+
+  ul li a:hover {
+    /* Efeito de hover um pouco mais forte no mouse do PC */
+    transform: scale(1.04);
+  }
+}
