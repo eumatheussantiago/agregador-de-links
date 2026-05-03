@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,7 +9,7 @@
 
     <meta
       name="description"
-      content="Desenvolvedor, portfólio e serviços de Matheus Santiago."
+      content="Desenvolvedor Full Stack, portfólio e serviços de Matheus Santiago."
     />
     <meta property="og:title" content="Matheus Santiago | Meus Links" />
     <meta
@@ -25,7 +25,7 @@
   <body>
     <main id="container">
       <button id="share-btn" aria-label="Compartilhar perfil">
-        <ion-icon name="share-outline"></ion-icon>
+        <ion-icon name="share-outline" aria-hidden="true"></ion-icon>
       </button>
 
       <div id="profile">
@@ -33,15 +33,20 @@
           <div class="image-protection-overlay"></div>
           <img
             src="./assets/avatar.png"
-            alt="Foto de Matheus Santiago"
+            alt="Foto de perfil de Matheus Santiago"
             id="profile-img"
+            draggable="false"
           />
         </div>
 
-        <p class="username">
+        <h1 class="username">
           @eu.matheussantiago
-          <ion-icon name="checkmark-circle" class="verified-badge"></ion-icon>
-        </p>
+          <ion-icon
+            name="checkmark-circle"
+            class="verified-badge"
+            aria-hidden="true"
+          ></ion-icon>
+        </h1>
 
         <p class="description i18n" data-key="bio">
           🚀 Full Stack Developer | Apaixonado por tecnologia e motivado pelo
@@ -49,119 +54,135 @@
           de Software e da Inteligência Artificial.
         </p>
 
-        <div id="language-selector">
-          <button
-            class="lang-btn active"
-            onclick="changeLang('pt')"
-            id="btn-pt"
-          >
+        <div id="language-selector" aria-label="Seletor de idioma">
+          <button class="lang-btn active" data-lang="pt" aria-pressed="true">
             PT
           </button>
-          <span class="divider"></span>
-          <button class="lang-btn" onclick="changeLang('en')" id="btn-en">
+          <span class="divider" aria-hidden="true"></span>
+          <button class="lang-btn" data-lang="en" aria-pressed="false">
             EN
           </button>
         </div>
 
         <div id="switch">
-          <button id="theme-toggle" aria-label="Trocar tema"></button>
-          <span></span>
+          <button
+            id="theme-toggle"
+            aria-label="Alternar tema claro e escuro"
+            aria-pressed="false"
+          ></button>
+          <span aria-hidden="true"></span>
         </div>
 
-        <ul>
-          <li>
-            <a
-              href="https://wa.me/5511986993673?text=Ol%C3%A1%20gostaria%20de%20saber%20mais%20sobre%20seus%20servi%C3%A7os"
-              target="_blank"
-            >
-              <ion-icon name="logo-whatsapp"></ion-icon>
-              <div class="link-content">
-                <strong class="i18n" data-key="link1_title"
-                  >Contrate meus Serviços</strong
-                >
-                <span class="i18n" data-key="link1_desc"
-                  >Desenvolvimento web sob medida</span
-                >
-              </div>
-            </a>
-          </li>
+        <nav aria-label="Links principais">
+          <ul>
+            <li>
+              <a
+                href="https://wa.me/5511986993673?text=Ol%C3%A1%20gostaria%20de%20saber%20mais%20sobre%20seus%20servi%C3%A7os"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ion-icon name="logo-whatsapp" aria-hidden="true"></ion-icon>
+                <div class="link-content">
+                  <strong class="i18n" data-key="link1_title"
+                    >Contrate meus Serviços</strong
+                  >
+                  <span class="i18n" data-key="link1_desc"
+                    >Desenvolvimento web sob medida</span
+                  >
+                </div>
+              </a>
+            </li>
 
-          <li>
-            <a
-              href="https://www.rocketseat.com.br/referral/one?referral=matheus-santiago-leandro-02822"
-              target="_blank"
-            >
-              <ion-icon name="rocket-outline"></ion-icon>
-              <div class="link-content">
-                <strong class="i18n" data-key="link2_title"
-                  >Conheça a Rocketseat</strong
-                >
-                <span class="i18n" data-key="link2_desc"
-                  >Evolua sua carreira na programação</span
-                >
-              </div>
-            </a>
-          </li>
+            <li>
+              <a
+                href="https://www.rocketseat.com.br/referral/one?referral=matheus-santiago-leandro-02822"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ion-icon name="rocket-outline" aria-hidden="true"></ion-icon>
+                <div class="link-content">
+                  <strong class="i18n" data-key="link2_title"
+                    >Conheça a Rocketseat</strong
+                  >
+                  <span class="i18n" data-key="link2_desc"
+                    >Evolua sua carreira na programação</span
+                  >
+                </div>
+              </a>
+            </li>
 
-          <li>
-            <a href="https://github.com/eumatheussantiago" target="_blank">
-              <ion-icon name="logo-github"></ion-icon>
-              <div class="link-content">
-                <strong class="i18n" data-key="link3_title"
-                  >Ver meu portfólio</strong
-                >
-                <span class="i18n" data-key="link3_desc"
-                  >Meus repositórios e projetos</span
-                >
-              </div>
-            </a>
-          </li>
+            <li>
+              <a
+                href="https://github.com/eumatheussantiago"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ion-icon name="logo-github" aria-hidden="true"></ion-icon>
+                <div class="link-content">
+                  <strong class="i18n" data-key="link3_title"
+                    >Ver meu portfólio</strong
+                  >
+                  <span class="i18n" data-key="link3_desc"
+                    >Meus repositórios e projetos</span
+                  >
+                </div>
+              </a>
+            </li>
 
-          <li>
-            <a href="https://coinbase.com/join/RKBY7DP" target="_blank">
-              <ion-icon name="logo-bitcoin"></ion-icon>
-              <div class="link-content">
-                <strong class="i18n" data-key="link4_title"
-                  >Cripto na CoinBase</strong
-                >
-                <span class="i18n" data-key="link4_desc"
-                  >Abra sua conta e ganhe R$15 em BTC</span
-                >
-              </div>
-            </a>
-          </li>
-        </ul>
+            <li>
+              <a
+                href="https://coinbase.com/join/RKBY7DP"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ion-icon name="logo-bitcoin" aria-hidden="true"></ion-icon>
+                <div class="link-content">
+                  <strong class="i18n" data-key="link4_title"
+                    >Cripto na CoinBase</strong
+                  >
+                  <span class="i18n" data-key="link4_desc"
+                    >Abra sua conta e ganhe R$15 em BTC</span
+                  >
+                </div>
+              </a>
+            </li>
+          </ul>
+        </nav>
 
-        <div id="social-links">
+        <nav id="social-links" aria-label="Redes sociais">
           <a
             href="https://www.linkedin.com/in/eumatheussantiago/"
             target="_blank"
+            rel="noopener noreferrer"
             aria-label="LinkedIn"
           >
-            <ion-icon name="logo-linkedin"></ion-icon>
+            <ion-icon name="logo-linkedin" aria-hidden="true"></ion-icon>
           </a>
           <a
             href="https://github.com/eumatheussantiago/"
             target="_blank"
+            rel="noopener noreferrer"
             aria-label="GitHub"
           >
-            <ion-icon name="logo-github"></ion-icon>
+            <ion-icon name="logo-github" aria-hidden="true"></ion-icon>
           </a>
           <a
             href="https://www.instagram.com/eu.matheussantiago/"
             target="_blank"
+            rel="noopener noreferrer"
             aria-label="Instagram"
           >
-            <ion-icon name="logo-instagram"></ion-icon>
+            <ion-icon name="logo-instagram" aria-hidden="true"></ion-icon>
           </a>
           <a
             href="https://www.youtube.com/@eumatheussantiago"
             target="_blank"
+            rel="noopener noreferrer"
             aria-label="YouTube"
           >
-            <ion-icon name="logo-youtube"></ion-icon>
+            <ion-icon name="logo-youtube" aria-hidden="true"></ion-icon>
           </a>
-        </div>
+        </nav>
 
         <footer>
           <p>Designed like Apple. Made By Matheus Santiago.</p>
@@ -169,7 +190,13 @@
       </div>
     </main>
 
-    <div id="toast" class="i18n" data-key="toast_msg">
+    <div
+      id="toast"
+      class="i18n"
+      data-key="toast_msg"
+      role="alert"
+      aria-live="polite"
+    >
       Link copiado para a área de transferência!
     </div>
 

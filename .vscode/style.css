@@ -13,7 +13,7 @@
 }
 
 /* =========================================
-   VARIÁVEIS DE TEMA (DARK / LIGHT)
+   VARIABLES
    ========================================= */
 :root {
   --text-color: #f5f5f7;
@@ -45,18 +45,15 @@
   --toast-color: #f5f5f7;
 }
 
-/* =========================================
-   ACESSIBILIDADE: FOCO DE TECLADO
-   ========================================= */
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--blue-verified);
-  outline-offset: 4px;
+  outline-offset: 2px;
   border-radius: inherit;
 }
 
 /* =========================================
-   BODY & BACKGROUND
+   BODY & LAYOUT
    ========================================= */
 body {
   color: var(--text-color);
@@ -66,6 +63,8 @@ body {
   min-height: 100vh;
   transition: color 0.5s ease;
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 
 @keyframes liquidGradient {
@@ -80,26 +79,26 @@ body {
   }
 }
 
-/* =========================================
-   LAYOUT & CONTAINER
-   ========================================= */
 #container {
   width: 100%;
-  max-width: 380px;
-  margin: 40px auto 0;
-  padding: 0 24px 40px;
+  max-width: 420px;
+  padding: 40px 24px;
   position: relative;
 }
 
 /* =========================================
-   SHARE BUTTON
+   PROFILE & AVATAR
    ========================================= */
+#profile {
+  text-align: center;
+}
+
 #share-btn {
   position: absolute;
-  top: 0;
+  top: 40px;
   right: 24px;
-  width: 40px;
-  height: 40px;
+  width: 44px; /* Apple HIG touch target */
+  height: 44px;
   border-radius: 50%;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
@@ -111,24 +110,17 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   z-index: 10;
   -webkit-tap-highlight-color: transparent;
 }
 
 #share-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.08);
   background: var(--glass-hover);
 }
 #share-btn:active {
   transform: scale(0.95);
-}
-
-/* =========================================
-   PROFILE, AVATAR & PROTECTION
-   ========================================= */
-#profile {
-  text-align: center;
 }
 
 .avatar-glass-ring {
@@ -145,6 +137,8 @@ body {
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   overflow: hidden;
+  /* Hack Safari para bordas arredondadas perfeitas ao usar overflow hidden */
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .avatar-glass-ring:hover {
@@ -153,10 +147,7 @@ body {
 
 .image-protection-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 5;
   background: transparent;
   border-radius: 50%;
@@ -171,6 +162,7 @@ body {
   -webkit-user-drag: none;
   user-select: none;
   -moz-user-select: none;
+  display: block;
 }
 
 .username {
@@ -178,11 +170,11 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 17px;
   letter-spacing: -0.022em;
-  margin-top: 16px;
-  user-select: none;
+  margin-top: 20px;
+  user-select: text;
 }
 
 .verified-badge {
@@ -190,33 +182,32 @@ body {
   font-size: 18px;
 }
 
-/* =========================================
-   DESCRIPTION & LANGUAGE SELECTOR
-   ========================================= */
 .description {
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--text-muted);
   max-width: 85%;
   margin: 12px auto 20px;
   font-weight: 400;
-  animation: appleSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: appleFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
+/* =========================================
+   LANGUAGE SELECTOR
+   ========================================= */
 #language-selector {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  margin: 0 auto 16px;
+  margin-bottom: 24px;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding: 4px 8px;
-  border-radius: 20px;
-  width: fit-content;
-  animation: appleSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  padding: 4px;
+  border-radius: 24px;
+  animation: appleFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   animation-delay: 0.1s;
 }
 
@@ -224,12 +215,15 @@ body {
   background: none;
   border: none;
   color: var(--text-color);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  opacity: 0.4;
-  transition: all 0.3s ease;
-  padding: 4px 10px;
+  opacity: 0.5;
+  transition:
+    opacity 0.3s ease,
+    color 0.3s ease;
+  padding: 8px 16px; /* Aumentado para melhor toque (Apple HIG) */
+  border-radius: 20px;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -237,20 +231,21 @@ body {
   opacity: 1;
   color: var(--blue-verified);
 }
+
 .divider {
   width: 1px;
-  height: 10px;
+  height: 12px;
   background: var(--glass-border);
 }
 
 /* =========================================
-   THEME SWITCHER (EFEITO FADE & SPIN)
+   THEME SWITCH
    ========================================= */
 #switch {
   position: relative;
-  width: 60px;
+  width: 64px;
   height: 32px;
-  margin: 20px auto;
+  margin: 0 auto 24px;
 }
 
 #switch span {
@@ -313,7 +308,7 @@ body {
 }
 
 .light #switch button {
-  transform: translateX(28px);
+  transform: translateX(32px);
 }
 .light #switch button::before {
   opacity: 0;
@@ -325,32 +320,17 @@ body {
 }
 
 /* =========================================
-   ANIMATIONS
-   ========================================= */
-@keyframes appleSlideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* =========================================
-   LINKS RICOS (ÍCONES + TEXTO)
+   LINKS LIST
    ========================================= */
 ul {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 24px;
 }
 
 ul li {
-  animation: appleSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: appleFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 ul li:nth-child(1) {
   animation-delay: 0.1s;
@@ -379,7 +359,9 @@ ul li a {
   border-radius: 18px;
   text-decoration: none;
   color: var(--text-color);
-  transition: all 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    background 0.3s ease;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -399,11 +381,13 @@ ul li a > ion-icon {
   font-weight: 500;
   font-size: 15px;
   letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 .link-content span {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-muted);
-  margin-top: 2px;
+  margin-top: 4px;
+  line-height: 1.2;
 }
 
 ul li a:hover {
@@ -411,19 +395,18 @@ ul li a:hover {
   transform: scale(1.02);
 }
 ul li a:active {
-  transform: scale(0.95);
+  transform: scale(0.97);
 }
 
 /* =========================================
-   SOCIAL LINKS
+   SOCIAL & FOOTER
    ========================================= */
 #social-links {
   display: flex;
   justify-content: center;
   gap: 16px;
   padding: 32px 0 24px;
-  font-size: 24px;
-  animation: appleSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: appleFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   animation-delay: 0.3s;
 }
 
@@ -431,8 +414,8 @@ ul li a:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
@@ -440,7 +423,10 @@ ul li a:active {
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   box-shadow: var(--glass-shadow);
   color: var(--text-color);
-  transition: all 0.3s ease;
+  font-size: 22px;
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    background 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -452,35 +438,36 @@ ul li a:active {
   transform: scale(0.95);
 }
 
-/* =========================================
-   FOOTER & TOAST
-   ========================================= */
 footer {
-  padding: 24px 0;
+  padding: 16px 0;
   text-align: center;
   font-size: 13px;
   letter-spacing: 0.02em;
-  opacity: 0.8;
+  opacity: 0.7;
   color: var(--text-color);
-  animation: appleSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: appleFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   animation-delay: 0.4s;
   user-select: none;
 }
 
+/* =========================================
+   TOAST
+   ========================================= */
 #toast {
   position: fixed;
-  bottom: -60px;
+  bottom: -80px;
   left: 50%;
   transform: translateX(-50%);
   background: var(--toast-bg);
   color: var(--toast-color);
-  padding: 12px 24px;
-  border-radius: 30px;
+  padding: 14px 28px;
+  border-radius: 32px;
   font-size: 14px;
   font-weight: 500;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 100;
+  pointer-events: none;
 }
 
 #toast.show {
@@ -488,11 +475,22 @@ footer {
 }
 
 /* =========================================
-   RESPONSIVIDADE (MEDIA QUERIES)
+   ANIMATIONS & RESPONSIVE
    ========================================= */
+@keyframes appleFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 380px) {
   #container {
-    padding: 0 16px 40px;
+    padding: 32px 16px;
   }
   .avatar-glass-ring {
     width: 110px;
@@ -506,35 +504,24 @@ footer {
     font-size: 14px;
   }
   .link-content span {
-    font-size: 11px;
+    font-size: 12px;
   }
   #social-links {
     gap: 12px;
-  }
-  #social-links a {
-    width: 46px;
-    height: 46px;
-    font-size: 20px;
   }
 }
 
 @media (min-width: 768px) {
   #container {
-    margin-top: 80px;
-    max-width: 420px;
+    margin-top: 40px;
   }
   #share-btn {
-    right: -20px;
-    top: 20px;
-  }
-  ul li a:hover {
-    transform: scale(1.04);
+    right: -32px;
+    top: 40px;
   }
 }
 
-/* =========================================
-   APPLE HIG: PREFERÊNCIAS DO SISTEMA
-   ========================================= */
+/* Acessibilidade de Sistema (HIG) */
 @media (prefers-reduced-motion: reduce) {
   body {
     animation: none;

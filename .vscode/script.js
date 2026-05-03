@@ -1,3 +1,5 @@
+"use strict"
+
 // ==========================================
 // 1. DICIONÁRIO DE TRADUÇÃO (PT / EN)
 // ==========================================
@@ -29,78 +31,125 @@ const translations = {
 }
 
 // ==========================================
-// 2. LÓGICA DE IDIOMA
-// ==========================================
-function changeLang(lang) {
-  // Remove classe ativa de todos e adiciona no botão clicado
-  document
-    .querySelectorAll(".lang-btn")
-    .forEach((btn) => btn.classList.remove("active"))
-  document.getElementById(`btn-${lang}`).classList.add("active")
-
-  // Traduz todos os elementos com a classe .i18n
-  document.querySelectorAll(".i18n").forEach((el) => {
-    const key = el.getAttribute("data-key")
-    if (translations[lang][key]) {
-      el.textContent = translations[lang][key]
-    }
-  })
-
-  // Salva no navegador do utilizador
-  localStorage.setItem("lang", lang)
-}
-
-// Ao abrir o site, verifica a língua guardada
-const savedLang = localStorage.getItem("lang") || "pt"
-changeLang(savedLang)
-
-// ==========================================
-// 3. LÓGICA DE TROCA DE TEMA E IMAGEM
+// 2. REFERÊNCIAS DO DOM (Para Performance)
 // ==========================================
 const html = document.documentElement
 const themeToggleBtn = document.getElementById("theme-toggle")
 const profileImg = document.getElementById("profile-img")
-const currentTheme = localStorage.getItem("theme")
-
-// Verifica ao carregar a página se o tema salvo era o claro
-if (currentTheme === "light") {
-  html.classList.add("light")
-  profileImg.setAttribute("src", "./assets/avatar-light.png")
-}
-
-// Quando o botão de tema é clicado:
-themeToggleBtn.addEventListener("click", () => {
-  html.classList.toggle("light")
-
-  if (html.classList.contains("light")) {
-    localStorage.setItem("theme", "light")
-    profileImg.setAttribute("src", "./assets/avatar-light.png")
-  } else {
-    localStorage.setItem("theme", "dark")
-    profileImg.setAttribute("src", "./assets/avatar.png")
-  }
-})
-
-// ==========================================
-// 4. LÓGICA DO BOTÃO DE COMPARTILHAR (TOAST)
-// ==========================================
 const shareBtn = document.getElementById("share-btn")
 const toast = document.getElementById("toast")
+const langButtons = document.querySelectorAll(".lang-btn")
+const i18nElements = document.querySelectorAll(".i18n")
 
-shareBtn.addEventListener("click", () => {
-  const profileUrl = window.location.href
+// ==========================================
+// 3. LÓGICA DE IDIOMA (Segura e sem inline JS)
+// ==========================================
+function changeLang(lang) {
+  if (!translations[lang]) return
 
-  navigator.clipboard
-    .writeText(profileUrl)
-    .then(() => {
+  // Atualiza estado visual e de acessibilidade dos botões
+  langButtons.forEach((btn) => {
+    const isSelected = btn.getAttribute("data-lang") === lang
+    btn.classList.toggle("active", isSelected)
+    btn.setAttribute("aria-pressed", isSelected)
+  })
+
+  // Aplica as traduções baseadas no atributo data-key
+  i18nElements.forEach((el) => {
+    const key = el.getAttribute("data-key")
+    if (key && translations[lang][key]) {
+      el.textContent = translations[lang][key]
+    }
+  })
+
+  // Salva preferência com tratamento de erro (caso cookies bloqueados)
+  try {
+    localStorage.setItem("lang", lang)
+  } catch (e) {
+    console.warn("LocalStorage não disponível.")
+  }
+}
+
+// Vincula o evento de clique aos botões de idioma dinamicamente
+langButtons.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const selectedLang = e.target.getAttribute("data-lang")
+    if (selectedLang) changeLang(selectedLang)
+  })
+})
+
+// Inicialização segura de idioma
+const savedLang = (() => {
+  try {
+    return localStorage.getItem("lang") || "pt"
+  } catch (e) {
+    return "pt"
+  }
+})()
+changeLang(savedLang)
+
+// ==========================================
+// 4. LÓGICA DE TEMA (Dark/Light com a11y)
+// ==========================================
+const initTheme = () => {
+  try {
+    const currentTheme = localStorage.getItem("theme")
+    if (currentTheme === "light") {
+      html.classList.add("light")
+      if (themeToggleBtn) themeToggleBtn.setAttribute("aria-pressed", "true")
+      if (profileImg) profileImg.src = "./assets/avatar-light.png"
+    }
+  } catch (e) {
+    console.warn("LocalStorage não disponível para tema.")
+  }
+}
+
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener("click", () => {
+    const isLight = html.classList.toggle("light")
+
+    // Atualiza Acessibilidade
+    themeToggleBtn.setAttribute("aria-pressed", isLight)
+
+    // Atualiza Imagem e Storage
+    if (profileImg)
+      profileImg.src = isLight
+        ? "./assets/avatar-light.png"
+        : "./assets/avatar.png"
+
+    try {
+      localStorage.setItem("theme", isLight ? "light" : "dark")
+    } catch (e) {}
+  })
+}
+
+initTheme()
+
+// ==========================================
+// 5. LÓGICA DO BOTÃO DE COMPARTILHAR
+// ==========================================
+let toastTimeout
+
+if (shareBtn && toast) {
+  shareBtn.addEventListener("click", async () => {
+    const profileUrl = window.location.href
+
+    try {
+      // Uso da API moderna do clipboard
+      await navigator.clipboard.writeText(profileUrl)
+
+      // Reseta a animação se for clicado várias vezes rapidamente
+      clearTimeout(toastTimeout)
       toast.classList.add("show")
 
-      // Esconde a notificação depois de 3 segundos
-      setTimeout(() => {
+      toastTimeout = setTimeout(() => {
         toast.classList.remove("show")
       }, 3000)
-    })
-    .catch((err) => {
-      console.error("Erro ao copiar o link: ", err)
-    })
-})
+    } catch (err) {
+      console.error(
+        "Erro ao copiar o link. Permissões podem estar bloqueadas.",
+        err,
+      )
+    }
+  })
+}
