@@ -27,7 +27,6 @@
 
   --switch-track: rgba(255, 255, 255, 0.2);
   --switch-thumb-bg: #ffffff;
-  --switch-bg-icon: url("./assets/moon-stars.svg");
   --blue-verified: #0ea5e9;
 
   --toast-bg: #f5f5f7;
@@ -46,7 +45,6 @@
 
   --switch-track: rgba(0, 0, 0, 0.15);
   --switch-thumb-bg: #ffffff;
-  --switch-bg-icon: url("./assets/sun.svg");
   --blue-verified: #007aff;
 
   --toast-bg: #1d1d1f;
@@ -185,7 +183,7 @@ body {
 }
 
 /* =========================================
-   THEME SWITCHER
+   THEME SWITCHER (EFEITO FADE & SPIN)
    ========================================= */
 #switch {
   position: relative;
@@ -213,8 +211,7 @@ body {
   z-index: 1;
   width: 28px;
   height: 28px;
-  background: var(--switch-thumb-bg) var(--switch-bg-icon) no-repeat center;
-  background-size: 16px;
+  background-color: var(--switch-thumb-bg);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -223,10 +220,51 @@ body {
     0 0 1px rgba(0, 0, 0, 0.1);
   transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* A Mágica: Camadas da Lua e do Sol usando ::before e ::after */
+#switch button::before,
+#switch button::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 🌙 LUA (Ativa no Modo Escuro) */
+#switch button::before {
+  background-image: url("./assets/moon-stars.svg");
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* ☀️ SOL (Escondido no Modo Escuro) */
+#switch button::after {
+  background-image: url("./assets/sun.svg");
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+}
+
+/* Ações quando o tema claro é ativado */
 .light #switch button {
   transform: translateX(28px);
+}
+
+.light #switch button::before {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.4);
+}
+
+.light #switch button::after {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
 }
 
 /* =========================================
