@@ -19,16 +19,13 @@
   --text-color: #f5f5f7;
   --text-muted: rgba(255, 255, 255, 0.7);
   --bg-gradient: linear-gradient(-45deg, #0f172a, #581c87, #1e1b4b, #0ea5e9);
-
   --glass-bg: rgba(20, 20, 20, 0.35);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
   --glass-hover: rgba(40, 40, 40, 0.45);
-
   --switch-track: rgba(255, 255, 255, 0.2);
   --switch-thumb-bg: #ffffff;
   --blue-verified: #0ea5e9;
-
   --toast-bg: #f5f5f7;
   --toast-color: #1d1d1f;
 }
@@ -37,16 +34,13 @@
   --text-color: #1d1d1f;
   --text-muted: rgba(0, 0, 0, 0.6);
   --bg-gradient: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
-
   --glass-bg: rgba(255, 255, 255, 0.45);
   --glass-border: rgba(255, 255, 255, 0.5);
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
   --glass-hover: rgba(255, 255, 255, 0.65);
-
   --switch-track: rgba(0, 0, 0, 0.15);
   --switch-thumb-bg: #ffffff;
   --blue-verified: #007aff;
-
   --toast-bg: #1d1d1f;
   --toast-color: #f5f5f7;
 }
@@ -126,13 +120,12 @@ body {
   transform: scale(1.1);
   background: var(--glass-hover);
 }
-
 #share-btn:active {
   transform: scale(0.95);
 }
 
 /* =========================================
-   PROFILE & AVATAR
+   PROFILE, AVATAR & PROTECTION
    ========================================= */
 #profile {
   text-align: center;
@@ -150,10 +143,23 @@ body {
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   box-shadow: var(--glass-shadow);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
 }
 
 .avatar-glass-ring:hover {
   transform: scale(1.05);
+}
+
+.image-protection-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  background: transparent;
+  border-radius: 50%;
 }
 
 #profile img {
@@ -161,8 +167,10 @@ body {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  pointer-events: none; /* Impede o usuário de arrastar a imagem */
+  pointer-events: none;
+  -webkit-user-drag: none;
   user-select: none;
+  -moz-user-select: none;
 }
 
 .username {
@@ -180,6 +188,59 @@ body {
 .verified-badge {
   color: var(--blue-verified);
   font-size: 18px;
+}
+
+/* =========================================
+   DESCRIPTION & LANGUAGE SELECTOR
+   ========================================= */
+.description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 85%;
+  margin: 12px auto 20px;
+  font-weight: 400;
+  animation: appleSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+#language-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 auto 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 4px 8px;
+  border-radius: 20px;
+  width: fit-content;
+  animation: appleSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: 0.1s;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+  padding: 4px 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lang-btn.active {
+  opacity: 1;
+  color: var(--blue-verified);
+}
+.divider {
+  width: 1px;
+  height: 10px;
+  background: var(--glass-border);
 }
 
 /* =========================================
@@ -225,7 +286,6 @@ body {
   justify-content: center;
 }
 
-/* A Mágica: Camadas da Lua e do Sol usando ::before e ::after */
 #switch button::before,
 #switch button::after {
   content: "";
@@ -240,30 +300,25 @@ body {
     transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* 🌙 LUA (Ativa no Modo Escuro) */
 #switch button::before {
   background-image: url("./assets/moon-stars.svg");
   opacity: 1;
   transform: rotate(0deg) scale(1);
 }
 
-/* ☀️ SOL (Escondido no Modo Escuro) */
 #switch button::after {
   background-image: url("./assets/sun.svg");
   opacity: 0;
   transform: rotate(-90deg) scale(0.4);
 }
 
-/* Ações quando o tema claro é ativado */
 .light #switch button {
   transform: translateX(28px);
 }
-
 .light #switch button::before {
   opacity: 0;
   transform: rotate(90deg) scale(0.4);
 }
-
 .light #switch button::after {
   opacity: 1;
   transform: rotate(0deg) scale(1);
@@ -340,13 +395,11 @@ ul li a > ion-icon {
   align-items: flex-start;
   text-align: left;
 }
-
 .link-content strong {
   font-weight: 500;
   font-size: 15px;
   letter-spacing: -0.01em;
 }
-
 .link-content span {
   font-size: 12px;
   color: var(--text-muted);
@@ -357,7 +410,6 @@ ul li a:hover {
   background: var(--glass-hover);
   transform: scale(1.02);
 }
-
 ul li a:active {
   transform: scale(0.95);
 }
@@ -396,13 +448,12 @@ ul li a:active {
   background: var(--glass-hover);
   transform: translateY(-4px) scale(1.05);
 }
-
 #social-links a:active {
   transform: scale(0.95);
 }
 
 /* =========================================
-   FOOTER
+   FOOTER & TOAST
    ========================================= */
 footer {
   padding: 24px 0;
@@ -416,9 +467,6 @@ footer {
   user-select: none;
 }
 
-/* =========================================
-   TOAST NOTIFICATION
-   ========================================= */
 #toast {
   position: fixed;
   bottom: -60px;
@@ -487,11 +535,9 @@ footer {
 /* =========================================
    APPLE HIG: PREFERÊNCIAS DO SISTEMA
    ========================================= */
-
-/* Se o usuário desativar animações no sistema operacional (labirintite/motion sickness) */
 @media (prefers-reduced-motion: reduce) {
   body {
-    animation: none; /* Desliga o gradiente líquido */
+    animation: none;
     background-position: 0% 50%;
   }
   *,
@@ -504,19 +550,19 @@ footer {
   }
 }
 
-/* Se o usuário desativar as transparências no sistema (problemas de visão) */
 @media (prefers-reduced-transparency: reduce) {
   :root {
-    --glass-bg: rgba(20, 20, 20, 0.9); /* Fica quase sólido no escuro */
+    --glass-bg: rgba(20, 20, 20, 0.9);
   }
   .light {
-    --glass-bg: rgba(255, 255, 255, 0.95); /* Fica quase sólido no claro */
+    --glass-bg: rgba(255, 255, 255, 0.95);
   }
   .avatar-glass-ring,
   ul li a,
   #social-links a,
   #share-btn,
-  #switch span {
+  #switch span,
+  #language-selector {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }

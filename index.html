@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -30,13 +30,38 @@
 
       <div id="profile">
         <div class="avatar-glass-ring">
-          <img src="./assets/avatar.png" alt="Foto de Matheus Santiago" />
+          <div class="image-protection-overlay"></div>
+          <img
+            src="./assets/avatar.png"
+            alt="Foto de Matheus Santiago"
+            id="profile-img"
+          />
         </div>
 
         <p class="username">
           @eu.matheussantiago
           <ion-icon name="checkmark-circle" class="verified-badge"></ion-icon>
         </p>
+
+        <p class="description i18n" data-key="bio">
+          🚀 Full Stack Developer | Apaixonado por tecnologia e motivado pelo
+          desafio de transformar ideias em soluções reais por meio da Engenharia
+          de Software e da Inteligência Artificial.
+        </p>
+
+        <div id="language-selector">
+          <button
+            class="lang-btn active"
+            onclick="changeLang('pt')"
+            id="btn-pt"
+          >
+            PT
+          </button>
+          <span class="divider"></span>
+          <button class="lang-btn" onclick="changeLang('en')" id="btn-en">
+            EN
+          </button>
+        </div>
 
         <div id="switch">
           <button id="theme-toggle" aria-label="Trocar tema"></button>
@@ -51,21 +76,29 @@
             >
               <ion-icon name="logo-whatsapp"></ion-icon>
               <div class="link-content">
-                <strong>Contrate meus Serviços</strong>
-                <span>Desenvolvimento web sob medida</span>
+                <strong class="i18n" data-key="link1_title"
+                  >Contrate meus Serviços</strong
+                >
+                <span class="i18n" data-key="link1_desc"
+                  >Desenvolvimento web sob medida</span
+                >
               </div>
             </a>
           </li>
 
           <li>
             <a
-              href="https://www.rocketseat.com.br/referral/one?referral=matheus-santiago-leandro-02822&utm_source=platform&utm_medium=organic&utm_campaign=venda&utm_term=mgm&utm_content=indication-lp_one&coupon=indicamgm"
+              href="https://www.rocketseat.com.br/referral/one?referral=matheus-santiago-leandro-02822"
               target="_blank"
             >
               <ion-icon name="rocket-outline"></ion-icon>
               <div class="link-content">
-                <strong>Conheça a Rocketseat</strong>
-                <span>Evolua sua carreira na programação</span>
+                <strong class="i18n" data-key="link2_title"
+                  >Conheça a Rocketseat</strong
+                >
+                <span class="i18n" data-key="link2_desc"
+                  >Evolua sua carreira na programação</span
+                >
               </div>
             </a>
           </li>
@@ -74,8 +107,12 @@
             <a href="https://github.com/eumatheussantiago" target="_blank">
               <ion-icon name="logo-github"></ion-icon>
               <div class="link-content">
-                <strong>Ver meu portfólio</strong>
-                <span>Meus repositórios e projetos</span>
+                <strong class="i18n" data-key="link3_title"
+                  >Ver meu portfólio</strong
+                >
+                <span class="i18n" data-key="link3_desc"
+                  >Meus repositórios e projetos</span
+                >
               </div>
             </a>
           </li>
@@ -84,8 +121,12 @@
             <a href="https://coinbase.com/join/RKBY7DP" target="_blank">
               <ion-icon name="logo-bitcoin"></ion-icon>
               <div class="link-content">
-                <strong>Cripto na CoinBase</strong>
-                <span>Abra sua conta e ganhe R$15 em BTC</span>
+                <strong class="i18n" data-key="link4_title"
+                  >Cripto na CoinBase</strong
+                >
+                <span class="i18n" data-key="link4_desc"
+                  >Abra sua conta e ganhe R$15 em BTC</span
+                >
               </div>
             </a>
           </li>
@@ -128,10 +169,11 @@
       </div>
     </main>
 
-    <div id="toast">Link copiado para a área de transferência!</div>
+    <div id="toast" class="i18n" data-key="toast_msg">
+      Link copiado para a área de transferência!
+    </div>
 
     <script src="./script.js"></script>
-
     <script
       type="module"
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
